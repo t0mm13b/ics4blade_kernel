@@ -367,6 +367,7 @@ static int fll_factors(struct _fll_div *fll_div, unsigned int Fref,
 	return 0;
 }
 
+#pragma GCC diagnostic ignored "-Wuninitialized"
 static int wm8993_set_fll(struct snd_soc_dai *dai, int fll_id, int source,
 			  unsigned int Fref, unsigned int Fout)
 {
@@ -429,12 +430,10 @@ static int wm8993_set_fll(struct snd_soc_dai *dai, int fll_id, int source,
 	else
 		reg1 &= ~WM8993_FLL_FRAC_MASK;
 	snd_soc_write(codec, WM8993_FLL_CONTROL_1, reg1);
-
 	snd_soc_write(codec, WM8993_FLL_CONTROL_2,
 		      (fll_div.fll_outdiv << WM8993_FLL_OUTDIV_SHIFT) |
 		      (fll_div.fll_fratio << WM8993_FLL_FRATIO_SHIFT));
 	snd_soc_write(codec, WM8993_FLL_CONTROL_3, fll_div.k);
-
 	reg4 = snd_soc_read(codec, WM8993_FLL_CONTROL_4);
 	reg4 &= ~WM8993_FLL_N_MASK;
 	reg4 |= fll_div.n << WM8993_FLL_N_SHIFT;

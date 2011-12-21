@@ -163,8 +163,11 @@ else
 	# apped a plus sign if the repository is not in a clean tagged
 	# state and  LOCALVERSION= is not specified
 	if test "${LOCALVERSION+set}" != "set"; then
+#		echo "YO! MOFO!"
+#		echo "B4 " $scm
 		scm=$(scm_version --short)
-		res="$res${scm:++}"
+#		echo "Aft " $scm
+#		res="$res${scm:++}"
 	fi
 fi
 

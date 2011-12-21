@@ -518,6 +518,7 @@ static int fll_factors(struct _fll_div *fll_div, unsigned int Fref,
 	return 0;
 }
 
+#pragma GCC diagnostic ignored "-Wuninitialized"
 static int wm9081_set_fll(struct snd_soc_codec *codec, int fll_id,
 			  unsigned int Fref, unsigned int Fout)
 {
