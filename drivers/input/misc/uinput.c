@@ -400,6 +400,16 @@ static int uinput_setup_device(struct uinput_device *udev, const char __user *bu
 		retval = uinput_validate_absbits(dev);
 		if (retval < 0)
 			goto exit;
+		if (test_bit(ABS_MT_SLOT, dev->absbit)) {
+#if defined(CONFIG_MACH_BLADE)
+			int nslot = 2;
+#else
+			int nslot = input_abs_get_max(dev, ABS_MT_SLOT) + 1;
+#endif
+			input_mt_init_slots(dev, nslot);
+		} else if (test_bit(ABS_MT_POSITION_X, dev->absbit)) {
+			input_set_events_per_packet(dev, 60);
+		}
 	}
 
 	udev->state = UIST_SETUP_COMPLETE;
@@ -829,4 +839,5 @@ MODULE_VERSION("0.3");
 
 module_init(uinput_init);
 module_exit(uinput_exit);
+
 
